@@ -1,0 +1,26 @@
+services:
+  dgkim1108_llm:
+    container_name: dgkim1108_llm
+    build: .
+    restart: always
+    ports:
+      - "18888:8888"
+      - "7500:7500"
+    runtime: nvidia
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["7"]
+              capabilities: ["gpu"]
+    volumes:
+      - /mnt/volume0/working/coding/llm:/workspace
+    working_dir: /workspace
+    command: >
+      jupyter lab 
+      --ip=0.0.0.0 
+      --allow-root 
+      --NotebookApp.token=''
+
